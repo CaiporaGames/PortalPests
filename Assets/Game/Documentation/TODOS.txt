@@ -1,0 +1,4 @@
+
+
+- Show image inside the LevelDetailUIScreen from database?
+- Show message that the signup/signin are wrong. Now just gives error.

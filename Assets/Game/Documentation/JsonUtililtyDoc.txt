@@ -1,0 +1,29 @@
+Here I explain how to work with the Json Utility system.
+
+Its porpose is serialize and deserialize data from databases like supabase.
+
+
+Workflow:
+- Serialize: return JsonUtilityWrapper.FromJsonList<StockItemDto>(req.downloadHandler.text);
+- Deserialize: string jsonArray = JsonUtilityWrapper.ToJsonArray(new[] { item });
+
+Where StockItemDto:
+using System;
+
+[Serializable]
+public class StockItemDto
+{
+    public string id;  // <- used by Unity's JsonUtility
+
+    public Guid guidId
+    {
+        get => Guid.TryParse(id, out var guid) ? guid : Guid.Empty;
+        set => id = value.ToString();
+    }
+    public string tenant_id;
+    public string name;
+    public int quantity;
+    public float price;
+    public string category_id;
+    public string barcode;
+}

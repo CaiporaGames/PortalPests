@@ -1,0 +1,27 @@
+Here I explain how to work with the UI Framework system.
+
+Its porpose is to controll the UI flow allowing we to open and close screen in a simple way.
+
+
+Workflow:
+- In the GameFlowManager script we create a reference to the UI controller we need.
+    Ex: [SerializeField] private AuthScreenController _authScreenController;
+- In the Start method we register each screen controller.
+    Ex: _uiService.Register(ScreenTypes.MessageScreen, _messageScreenController);
+
+OBS.: We first need to create a screen type.
+
+- IUIService, we need to implement this to call the ShowScreenAsync and HideScreenAsync. We call them like:
+    await ServiceLocator.Resolve<IUIService>().ShowScreenAsync<object>(ScreenTypes.DashboardScreen);
+
+OBS 1.: We can pass the screen that should keep opened in the second parameter.
+OBS 2.: We can pass extra data as third parameter.
+
+This way can controll the flow of what should be open or closed and pass extra information from one 
+screen to another.
+
+- Controllers. Each controller is a concreate class from BaseUIController, this class have 3 important 
+methods we can override. 
+ + InitializeAsync: Used as a start method.
+ + ShowAsync: Used to show some type of extra information or initialization in the screen.
+ + HideAsync: Used to do extra clean up.

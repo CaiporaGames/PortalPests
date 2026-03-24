@@ -1,0 +1,73 @@
+https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10
+
+
+How to use the save system:
+
+Anywhere in your code:
+var save = ServiceLocator.Resolve<ISaveService>();
+
+var profile = new PlayerProfile {
+    level   = 5,
+    xp      = 123.4f,
+    name    = "Player",
+    isReady = true,
+    position= new Vector3(1,2,3)
+};
+
+await save.SaveAsync("playerProfile", profile);
+
+// Later...
+var loaded = await save.LoadAsync<PlayerProfile>("playerProfile");
+Debug.Log(loaded.name + \" at \" + loaded.position);
+
+
+How to use the pool system:
+ var bullet = pool.Get();
+        bullet.transform.position = Vector3.zero;
+
+        // Later...
+        pool.Release(bullet);
+
+
+
+How to use Updade Manager:
+
+public class EnemyAI : MonoBehaviour
+{
+    private Action<float>       _tick;
+    private IUpdateManager      _updater;
+
+    private void Awake()
+    {
+        _updater = ServiceLocator.Resolve<IUpdateManager>();
+        _tick    = OnTick;
+    }
+
+    private void OnEnable()
+    {
+        // start getting updates when this MonoBehaviour is enabled
+        _updater.Register(_tick);
+    }
+
+    private void OnDisable()
+    {
+        // stop getting updates when it’s disabled
+        _updater.Unregister(_tick);
+    }
+
+    private void OnTick(float deltaTime)
+    {
+        // your per-frame logic here
+    }
+}
+
+
+How to use the scene director?
+
+var director = ServiceLocator.Resolve<ISceneDirector>();
+var flow = await director.LoadAsync("Level_01");
+if (flow != null) await flow.InitializeAsync(GameContext.FromLocator());
+
+to unload:
+var sceneName = gameObject.scene.name;
+        await director.UnloadAsync(sceneName);

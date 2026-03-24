@@ -1,0 +1,14 @@
+Here I explain how to work with the dependency Injection (DI) system.
+
+Its propose it to be a simple way to have access to singletons in the whole project.
+
+Workflow:
+We can register them in any point of the development doing like this:
+ ServiceLocator.RegisterSingleton<ISaveService>(_saveService);
+
+and we can use them like this:
+    var ui = ServiceLocator.Resolve<IUIService>();
+
+OBS.: We register the interface so we can have a Dependency Inversion too in the project.
+
+Now we can use the service in any place of the project.

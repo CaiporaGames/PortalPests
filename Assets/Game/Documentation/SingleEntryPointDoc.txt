@@ -1,0 +1,18 @@
+Here I explain how to work with the single entry point system.
+
+Its propose it to be the place where we bootstrap the whole application. We get the dependencies using 
+the (Dependency injection) DI system, initialize the first UI using the UI Framework, 
+
+
+Workflow:
+
+- In the top we can get the UI controllers as serialized fields. These are set in an empty GO that is 
+in the -- Scene Manager -- as a child.
+Ex:  [SerializeField] private UIService _uiService;
+
+- In the Awake method we can initialize the DI system to use in the whole game.
+Ex: _saveService = new BinarySaveService();
+    ServiceLocator.RegisterSingleton<IUIService>(_uiService);
+
+- In the Start method we initialize calling all the initailize method from concrete classes. These work 
+like start methods.

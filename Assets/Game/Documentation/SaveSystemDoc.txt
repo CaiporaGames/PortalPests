@@ -1,0 +1,84 @@
+Here I explain how to work with the Save system.
+
+Its porpose is to serve as a simple save system using binary data.
+
+Workflow:
+ - We create a class to represent the data we need. Ex:
+ using System.IO;
+/// <summary>
+/// Example data class using manual binary serialization.
+/// </summary>
+public class UserCredentials : IBinarySerializable
+{
+    public string userName = string.Empty;
+    public string userEmail = string.Empty;
+    public string userPassword = string.Empty;
+    public bool isUserAlreadyLogged = false;
+    public string userId = string.Empty;
+    public string tenantId = string.Empty;
+    public string accessToken = string.Empty;
+    /* 
+        public int level;
+        public float xp;
+        public Vector3 position; */
+
+    // Parameterless constructor required for deserialization
+
+    public UserCredentials(){}
+    public UserCredentials(string userName, string userEmail, string userPassword, bool isUserAlreadyLogged,
+        string userId, string tenantId, string accessToken)
+    {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.isUserAlreadyLogged = isUserAlreadyLogged;
+        this.userId = userId;
+        this.tenantId = tenantId;
+        this.accessToken = accessToken;
+    }
+
+    public void Serialize(BinaryWriter writer)
+    {
+        writer.Write(userName);
+        writer.Write(userEmail);
+        writer.Write(userPassword);
+        writer.Write(userId);
+        writer.Write(tenantId);
+        writer.Write(accessToken);
+        writer.Write(isUserAlreadyLogged);
+    }
+
+    public void Deserialize(BinaryReader reader)
+    {
+        userName = reader.ReadString();
+        userEmail = reader.ReadString();
+        userPassword = reader.ReadString();
+        userId = reader.ReadString();
+        tenantId = reader.ReadString();
+        accessToken = reader.ReadString();
+        isUserAlreadyLogged = reader.ReadBoolean();
+       /*  level = reader.ReadInt32();
+         xp = reader.ReadSingle();
+         isReady = reader.ReadBoolean(); */
+        /*   float x = reader.ReadSingle();
+          float y = reader.ReadSingle();
+          float z = reader.ReadSingle();
+          position = new Vector3(x, y, z); */
+    }
+}
+
+- We can save like this:
+    var result = await _auth.SignInAsync(userEmail, userPass);
+    UserCredentials userCredentials = new UserCredentials(signup.name, userEmail, userPass, true,
+                    result.user.id, tenantId, result.access_token);
+    await save.SaveAsync(SaveType.UserCredentials, userCredentials);
+
+- We can load like this:
+    UserCredentials userCredentials = await save.LoadAsync<UserCredentials>(SaveType.UserCredentials);
+    userCreadentials.accessToken = userCredentials.accessToken;
+    userCreadentials.tenantId = userCredentials.tenantId;
+    userCreadentials.userId = userCredentials.userId;
+    userCreadentials.userName = userCredentials.userName;
+    userCreadentials.userEmail = userCredentials.userEmail;
+    userCreadentials.userPassword = userCredentials.userPassword;
+    userCreadentials.isUserAlreadyLogged = true;
