@@ -45,29 +45,28 @@ namespace Aegis.GrenadeSystem.HiEx
             audioSource = gameObject.GetComponent<AudioSource>();
         }
 
-
-        private void Start()
+        IEnumerator ExplosionCountdown()
         {
-            // set the timer
-            countdown = explosionDelay;
-        }
-
-        private void Update()
-        {
-            // if the grenade hasn't exploded, reduce the timer
-            if (!hasexploded)
+            while (countdown > 0)
             {
                 countdown -= Time.deltaTime;
-                if (countdown <= 0)
-                {
-                    Explode();
-                    hasexploded = true;
-                }
+                yield return null;
             }
 
-
+            if (!hasexploded)
+            {
+                Explode();
+                hasexploded = true;
+            }
         }
 
+        public void StartExplosionTimer()
+        {
+            if (hasexploded) return;
+
+            countdown = explosionDelay;
+            StartCoroutine(ExplosionCountdown());
+        }
 
         //explode function - what happens when the timer reaches 0
         void Explode()
@@ -109,10 +108,16 @@ namespace Aegis.GrenadeSystem.HiEx
             {
 
                 //if an Enemy or player is nearby the explosion, apply damage
-                if (closeobject.tag == "Player" || closeobject.tag == "Enemy")
+                if (closeobject.tag == "Player" || closeobject.tag == "Enemy" || closeobject.tag == "Target")
                 {
 
                     DamageHandler healthobject = closeobject.GetComponent<DamageHandler>();
+                    Target targetObject = closeobject.GetComponent<Target>();
+
+                    if (targetObject)
+                    {
+                        targetObject.Got(closeDam);
+                    }
 
                     if (healthobject)
                     {
