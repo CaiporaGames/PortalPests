@@ -6,6 +6,8 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Target : MonoBehaviour
 {
+    [SerializeField] private GameObject targetMesh;
+    private AudioSource audioSource;
     public float health = 5.0f;
     public int pointValue;
 
@@ -23,6 +25,7 @@ public class Target : MonoBehaviour
     void Awake()
     {
         Helpers.RecursiveLayerChange(transform, LayerMask.NameToLayer("Target"));
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -50,10 +53,11 @@ public class Target : MonoBehaviour
         //the audiosource of the target will get destroyed, so we need to grab a world one and play the clip through it
         if (HitPlayer != null)
         {
-            var source = WorldAudioPool.GetWorldSFXSource();
-            source.transform.position = position;
-            source.pitch = HitPlayer.source.pitch;
-            source.PlayOneShot(HitPlayer.GetRandomClip());
+            targetMesh.SetActive(false);
+            //var source = WorldAudioPool.GetWorldSFXSource();
+            audioSource.transform.position = position;
+            audioSource.pitch = HitPlayer.source.pitch;
+            audioSource.PlayOneShot(HitPlayer.GetRandomClip());
         }
 
         if (DestroyedEffect != null)

@@ -30,18 +30,18 @@ public class GrenadeThrowHandler : MonoBehaviour
 
     private void OnReleased(SelectExitEventArgs args)
     {
-        Debug.Log("Grenade released!");
+        //Debug.Log("Grenade released!");
 
         // Optional: check if it was actually thrown (has velocity)
-        if (rb.linearVelocity.magnitude > 0.5f)
+      /*   if (rb.linearVelocity.magnitude > 0.1f)
         {
             Debug.Log("Grenade thrown!");
-
+ */
             grenade.StartExplosionTimer();
-        }
+        /* }
         else
         {
             Debug.Log("Dropped, not thrown.");
-        }
+        } */
     }
 }
