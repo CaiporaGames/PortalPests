@@ -33,6 +33,7 @@ namespace Aegis.GrenadeSystem.HiEx
 
         private void OnPickUp(SelectExitEventArgs args)
         {
+            EventBus.TriggerEvent(EventType.GrenadePickedUp, gameObject);
             audioSource.clip = grenadePickupSound;
             audioSource.Play();
         }     

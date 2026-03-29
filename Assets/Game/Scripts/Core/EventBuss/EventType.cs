@@ -1,6 +1,6 @@
 public enum EventType
 {
- 
+ GrenadePickedUp
 /*     OnChunkRefreshMesh,
     OnPlayAnimation,
     OnDropItem,

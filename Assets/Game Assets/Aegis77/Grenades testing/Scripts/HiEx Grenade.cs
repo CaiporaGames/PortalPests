@@ -6,6 +6,7 @@ namespace Aegis.GrenadeSystem.HiEx
 {
     public class HiExGrenade : MonoBehaviour
     {
+        [SerializeField] private GameObject bombModel;
         // Explosion effects
         [Header("Explosion Effects")]
         [SerializeField] GameObject explosionEffectPrefab;
@@ -31,7 +32,6 @@ namespace Aegis.GrenadeSystem.HiEx
 
         // Audio effects
         [Header("Audio Effects")]
-        [SerializeReference] GameObject audioSourcePrefab;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip impact;
         [SerializeField] AudioClip[] explosionSounds;
@@ -184,19 +184,16 @@ namespace Aegis.GrenadeSystem.HiEx
         //Function to play explosion sound effect by instantiating a new object to play that sound at the explosion
         void PlaySoundAtPosition()
         {
-            GameObject audiosourceObject = Instantiate(audioSourcePrefab, transform.position, Quaternion.identity);
 
             int rand = Random.Range(0, explosionSounds.Length);
 
-            AudioSource instantiatedAudioSource = audiosourceObject.GetComponent<AudioSource>();
+            
 
-            instantiatedAudioSource.spatialBlend = 1;
-            instantiatedAudioSource.clip = explosionSounds[rand];
-            instantiatedAudioSource.Play();
-
-            Destroy(audiosourceObject, instantiatedAudioSource.clip.length);
-
-
+            audioSource.spatialBlend = 1;
+            audioSource.clip = explosionSounds[rand];
+            audioSource.Play();
+            bombModel.SetActive(false);
+            Destroy(gameObject, audioSource.clip.length);
         }
 
         //Function to play an impact sound effect if the thrown grenade hits something, but has not exploded yet
