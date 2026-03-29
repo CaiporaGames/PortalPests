@@ -237,7 +237,10 @@ MonoBehaviour:
   bombModel: {fileID: 7479555358606094326}
   explosionEffectPrefab: {fileID: 5481530993414605263, guid: 7a12b40fb78f3694ea3ba5830db032b4, type: 3}
   explosionParticleOffset: {x: 0, y: 1, z: 0}
-  explosionDelay: 3
+  hapticMaxDistance: 15
+  hapticAmplitude: 1
+  hapticDuration: 0.4
+  explosionDelay: 1
   explosionForce: 1000
   explosionForceRadius: 5
   closeRadius: 1
@@ -308,7 +311,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

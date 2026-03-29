@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Aegis.GrenadeSystem.HiEx
 {
@@ -11,6 +13,12 @@ namespace Aegis.GrenadeSystem.HiEx
         [Header("Explosion Effects")]
         [SerializeField] GameObject explosionEffectPrefab;
         [SerializeField] Vector3 explosionParticleOffset = new Vector3(0, 1, 0);
+
+        // Add this field at the top with your other serialized fields
+        [Header("Haptics")]
+        [SerializeField] private float hapticMaxDistance = 15f;
+        [SerializeField] private float hapticAmplitude = 1f;
+        [SerializeField] private float hapticDuration = 0.4f;
 
 
         //explosion settings
@@ -82,8 +90,7 @@ namespace Aegis.GrenadeSystem.HiEx
             ApplyExplosiveForce();
 
             ApplyDamage();
-
-            Destroy(gameObject);
+            TriggerHaptics();
         }
 
 
@@ -162,6 +169,60 @@ namespace Aegis.GrenadeSystem.HiEx
             }
         }
 
+        void TriggerHaptics()
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player == null) return;
+
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance >= hapticMaxDistance) return;
+
+            float intensity = Mathf.Clamp01(1f - (distance / hapticMaxDistance)) * hapticAmplitude;
+
+            // Delay haptic slightly based on distance (sound travels ~340m/s)
+            float delay = distance / 340f;
+            StartCoroutine(DelayedHaptic(intensity, delay));
+        }
+
+        IEnumerator DelayedHaptic(float intensity, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            float[] pulses = { 1f, 0.5f, 0.2f };
+            float[] gaps   = { 0f, 0.12f, 0.1f };
+
+            for (int i = 0; i < pulses.Length; i++)
+            {
+                yield return new WaitForSeconds(gaps[i]);
+                SendHapticToAllControllers(intensity * pulses[i], 0.15f);
+            }
+        }
+
+        void SendHapticToAllControllers(float amplitude, float duration)
+        {
+            // Must query each hand separately
+            var leftDevices = new List<InputDevice>();
+            var rightDevices = new List<InputDevice>();
+            var headDevices = new List<InputDevice>();
+
+            InputDevices.GetDevicesWithCharacteristics(
+                InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Left, leftDevices);
+            InputDevices.GetDevicesWithCharacteristics(
+                InputDeviceCharacteristics.Controller | InputDeviceCharacteristics.Right, rightDevices);
+            InputDevices.GetDevicesWithCharacteristics(
+                InputDeviceCharacteristics.HeadMounted, headDevices);
+
+            var all = new List<InputDevice>();
+            all.AddRange(leftDevices);
+            all.AddRange(rightDevices);
+            all.AddRange(headDevices);
+
+            foreach (var device in all)
+            {
+                if (device.TryGetHapticCapabilities(out HapticCapabilities caps) && caps.supportsImpulse)
+                    device.SendHapticImpulse(0, amplitude, duration);
+            }
+        }
 
         //Function to apply physics explosive force to objects near the explosion
         void ApplyExplosiveForce()
@@ -193,7 +254,7 @@ namespace Aegis.GrenadeSystem.HiEx
             audioSource.clip = explosionSounds[rand];
             audioSource.Play();
             bombModel.SetActive(false);
-            Destroy(gameObject, audioSource.clip.length);
+            Destroy(gameObject, 5);
         }
 
         //Function to play an impact sound effect if the thrown grenade hits something, but has not exploded yet

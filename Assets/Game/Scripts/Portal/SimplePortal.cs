@@ -14,6 +14,7 @@ public class SimplePortal : MonoBehaviour
     [SerializeField] private float cooldown = 0.2f;
 
     private readonly Dictionary<Rigidbody, float> _recentTeleports = new();
+    private readonly HashSet<Rigidbody> _blockedUntilExit = new();
 
     private void Update()
     {
@@ -70,6 +71,9 @@ public class SimplePortal : MonoBehaviour
             return;
         }
 
+        // block the return trip
+        if (_blockedUntilExit.Contains(rb)) return;
+
         XRGrabInteractable grab = other.GetComponentInParent<XRGrabInteractable>();
         if (grab != null && grab.isSelected)
         {
@@ -82,28 +86,32 @@ public class SimplePortal : MonoBehaviour
 
     private void TeleportRigidbody(Rigidbody rb)
     {
-        Transform fromPortal = transform;
-        Transform toPortal = linkedPortal.transform;
+        Transform fromExit = exitPoint;
         Transform toExit = linkedPortal.exitPoint;
 
-        Vector3 localPosition = fromPortal.InverseTransformPoint(rb.position);
-        Quaternion localRotation = Quaternion.Inverse(fromPortal.rotation) * rb.rotation;
+        Vector3 oldVelocity = GetLinearVelocity(rb);
 
-        Vector3 newWorldPosition = toPortal.TransformPoint(localPosition);
-        Quaternion newWorldRotation = toPortal.rotation * localRotation;
+        // 1. Convert velocity to portal A's local space
+        Vector3 localVelocity = fromExit.InverseTransformDirection(oldVelocity);
 
-        Vector3 velocity = GetLinearVelocity(rb);
-        Vector3 localVelocity = fromPortal.InverseTransformDirection(velocity);
-        Vector3 newWorldVelocity = toPortal.TransformDirection(localVelocity);
+        // 2. Flip the forward axis (Z) so the object exits forward, not backward
+        localVelocity.z = -localVelocity.z;
 
-        Vector3 localAngularVelocity = fromPortal.InverseTransformDirection(rb.angularVelocity);
-        Vector3 newWorldAngularVelocity = toPortal.TransformDirection(localAngularVelocity);
+        // 3. Convert from that local space into portal B's world space
+        Vector3 newWorldVelocity = toExit.TransformDirection(localVelocity);
 
-        // Push object out in front of destination portal
-        newWorldPosition = toExit.position + toExit.forward * exitOffset;
+        // Same treatment for rotation
+        Quaternion flip = Quaternion.Euler(0f, 180f, 0f);
+        Quaternion portalDelta = toExit.rotation * flip * Quaternion.Inverse(fromExit.rotation);
+        Quaternion newWorldRotation = portalDelta * rb.rotation;
+        Vector3 newWorldAngularVelocity = portalDelta * rb.angularVelocity;
 
-        Debug.Log($"[{name}] Teleporting {rb.name} -> {linkedPortal.name}");
-        Debug.Log($"[{name}] New Pos: {newWorldPosition}, Exit Forward: {toExit.forward}");
+        Vector3 newWorldPosition = toExit.position + toExit.forward * exitOffset;
+
+        Debug.Log(
+            $"[{name}] Teleporting {rb.name} -> {linkedPortal.name}\n" +
+            $"Old Velocity: {oldVelocity} | New Velocity: {newWorldVelocity}"
+        );
 
         rb.position = newWorldPosition;
         rb.rotation = newWorldRotation;
@@ -111,12 +119,22 @@ public class SimplePortal : MonoBehaviour
         rb.angularVelocity = newWorldAngularVelocity;
 
         _recentTeleports[rb] = Time.time;
-        linkedPortal.RegisterRecentTeleport(rb);
+        linkedPortal.BlockUntilExit(rb);
     }
 
-    public void RegisterRecentTeleport(Rigidbody rb)
+    public void BlockUntilExit(Rigidbody rb)
     {
+        _blockedUntilExit.Add(rb);
         _recentTeleports[rb] = Time.time;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Rigidbody rb = other.attachedRigidbody;
+        if (rb == null) rb = other.GetComponentInParent<Rigidbody>();
+        if (rb == null) return;
+
+        _blockedUntilExit.Remove(rb);
     }
 
     private Vector3 GetLinearVelocity(Rigidbody rb)

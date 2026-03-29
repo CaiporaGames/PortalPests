@@ -70,8 +70,7 @@ public class Target : MonoBehaviour
 
         m_Destroyed = true;
         
-        gameObject.SetActive(false);
-       
-        GameSystem.Instance.TargetDestroyed(pointValue);
+        targetMesh.SetActive(false);
+        Destroy(gameObject, 5);
     }
 }
