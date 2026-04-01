@@ -363,7 +363,7 @@ public class LevelLayoutEditor : Editor
 
         if (closestPiece != null)
         {
-            if (Event.current.type.Equals(UnityEngine.EventType.Repaint))
+            if (Event.current.type == UnityEngine.EventType.Repaint)
             {
                 MeshFilter[] filter = closestPiece.GetComponentsInChildren<MeshFilter>();
 
@@ -381,7 +381,7 @@ public class LevelLayoutEditor : Editor
                
                 Handles.DrawWireCube(closestBound.center, closestBound.size);
             }
-            else if (Event.current.type.Equals(UnityEngine.EventType.MouseUp) && Event.current.button == 0 && GUIUtility.hotControl == 0)
+            else if (Event.current.type == UnityEngine.EventType.MouseUp && Event.current.button == 0 && GUIUtility.hotControl == 0)
             {
                 closestPiece.Removed();
                 Undo.DestroyObjectImmediate(closestPiece.gameObject);
@@ -411,7 +411,7 @@ public class LevelLayoutEditor : Editor
         if(GUIUtility.hotControl == 0)
             HandleUtility.AddDefaultControl(controlID);
         
-        if (Event.current.GetTypeForControl(controlID).Equals(UnityEngine.EventType.KeyDown))
+        if (Event.current.GetTypeForControl(controlID) == UnityEngine.EventType.KeyDown)
         {
             if (Event.current.keyCode == KeyCode.R)
             {
@@ -476,7 +476,7 @@ public class LevelLayoutEditor : Editor
         
         
         //if hot control is not 0, that mean we clicked a gizmo and we don't want that.
-        if (Event.current.type.Equals(UnityEngine.EventType.MouseUp) && Event.current.button == 0 && GUIUtility.hotControl == 0)
+        if (Event.current.type == UnityEngine.EventType.MouseUp && Event.current.button == 0 && GUIUtility.hotControl == 0)
         {           
             var c = PrefabUtility.InstantiatePrefab(m_SelectedRoom) as LevelRoom;
                

@@ -1,11 +1,7 @@
 fileFormatVersion: 2
-guid: 0f1f79933c495d346bc351e77dda29ba
-MonoImporter:
+guid: 126f10c54fce41d4aa610945f0da1c61
+PrefabImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +10,5 @@ AssetOrigin:
   productId: 149310
   packageName: 'Unity Learn | Creator Kit: FPS | URP'
   packageVersion: 5.0
-  assetPath: Assets/Creator Kit - FPS/Scripts/System/PoolSystem.cs
+  assetPath: Assets/Creator Kit - FPS/Prefabs/Targets/BloodCellTarget.prefab
   uploadId: 873426

@@ -17,8 +17,8 @@ public class GameSystem : MonoBehaviour
     
     public GameObject[] StartPrefabs;
     public float TargetMissedPenalty = 1.0f;
- /*    public AudioSource BGMPlayer;
-    public AudioClip EndGameSound; */
+    public AudioSource BGMPlayer;
+    public AudioClip EndGameSound;
     
     public float RunTime => m_Timer;
     public int TargetCount => m_TargetCount;
@@ -46,7 +46,7 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
-        //WorldAudioPool.Init();
+        WorldAudioPool.Init();
         
         RetrieveTargetsCount();
         
@@ -54,7 +54,7 @@ public class GameSystem : MonoBehaviour
         //in the editor we find which level we are currently in. Inefficient but since any level can be opened in the
         //editor we can't assume where we start
 
-       /*  string currentScene = SceneManager.GetActiveScene().path;
+        string currentScene = SceneManager.GetActiveScene().path;
         for (int i = 0; i < GameDatabase.Instance.episodes.Length && s_CurrentEpisode < 0; ++i)
         {
             for (int j = 0; j < GameDatabase.Instance.episodes[i].scenes.Length; ++j)
@@ -66,7 +66,7 @@ public class GameSystem : MonoBehaviour
                     break;
                 }
             }
-        } */
+        }
         
 #else
         //in the final game, we init everything to episode & level 0, as we can't start from somewhere else
@@ -77,7 +77,7 @@ public class GameSystem : MonoBehaviour
         }
 #endif
         
-//        GameSystemInfo.Instance.UpdateTimer(0);
+        GameSystemInfo.Instance.UpdateTimer(0);
     }
 
     public void ResetTimer()
@@ -97,9 +97,9 @@ public class GameSystem : MonoBehaviour
 
     public void FinishRun()
     {
-       /*  BGMPlayer.clip = EndGameSound;
+        BGMPlayer.clip = EndGameSound;
         BGMPlayer.loop = false;
-        BGMPlayer.Play(); */
+        BGMPlayer.Play();
         
         Controller.Instance.DisplayCursor(true);
         Controller.Instance.CanPause = false;
@@ -169,8 +169,8 @@ public class GameSystem : MonoBehaviour
         m_TargetDestroyed = 0;
         m_Score = 0;
 
-//        GameSystemInfo.Instance.UpdateScore(0);
-//        LevelSelectionUI.Instance.Init();
+        GameSystemInfo.Instance.UpdateScore(0);
+        LevelSelectionUI.Instance.Init();
     }
 
     void Update()
@@ -179,17 +179,17 @@ public class GameSystem : MonoBehaviour
         {
             m_Timer += Time.deltaTime;
             
-           // GameSystemInfo.Instance.UpdateTimer(m_Timer);
+            GameSystemInfo.Instance.UpdateTimer(m_Timer);
         }
 
-      /*   Transform playerTransform = Controller.Instance.transform;
+        Transform playerTransform = Controller.Instance.transform;
         
         
         //UI Update
         MinimapUI.Instance.UpdateForPlayerTransform(playerTransform);
        
         if(FullscreenMap.Instance.gameObject.activeSelf)
-            FullscreenMap.Instance.UpdateForPlayerTransform(playerTransform); */
+            FullscreenMap.Instance.UpdateForPlayerTransform(playerTransform);
     }
 
     public float GetFinalTime()
@@ -207,6 +207,6 @@ public class GameSystem : MonoBehaviour
         m_TargetDestroyed += 1;
         m_Score += score;
 
-        //GameSystemInfo.Instance.UpdateScore(m_Score);
+        GameSystemInfo.Instance.UpdateScore(m_Score);
     }
 }

@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: 0f1f79933c495d346bc351e77dda29ba
-MonoImporter:
+guid: 29f277a5d3d113b4fb97a2004d55f446
+NativeFormatImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
+  mainObjectFileID: 9100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +11,5 @@ AssetOrigin:
   productId: 149310
   packageName: 'Unity Learn | Creator Kit: FPS | URP'
   packageVersion: 5.0
-  assetPath: Assets/Creator Kit - FPS/Scripts/System/PoolSystem.cs
+  assetPath: Assets/Creator Kit - FPS/Art/Animations/Enemies/Bloodcell/Bloodcell.controller
   uploadId: 873426
