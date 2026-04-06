@@ -2,7 +2,7 @@ using System.IO;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class BinarySaveService : ISaveService
+public class BinarySaveService : MonoBehaviour, ISaveService
 {
     string GetPath(SaveType key) => Path.Combine(Application.persistentDataPath, key + ".bin");
 

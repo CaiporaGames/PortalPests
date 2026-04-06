@@ -19,6 +19,12 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] UpdateManager _updateManager;
     [SerializeField] FixedUpdateManager _fixedUpdateManager;
     [SerializeField] LateUpdateManager _lateUpdateManager;
+
+    [Header("Managers")]
+    [SerializeField] private PersistentItemSaveManager _persistentItemSaveManager;
+    [SerializeField] private PersistentWorldStateManager _persistentWorldStateManager;
+
+
     private List<IGameSystem> systems = new();
     private IAuthService _authService;
     private GameContext _ctx;
@@ -31,6 +37,10 @@ public class GameFlowManager : MonoBehaviour
         ServiceLocator.RegisterSingleton<IAuthService>(_authService);
         ServiceLocator.RegisterSingleton<IUIService>(_uiService);
         ServiceLocator.RegisterSingleton<ISaveService>(_saveService);
+
+        //##### Register managers
+        ServiceLocator.RegisterSingleton(_persistentItemSaveManager);
+        ServiceLocator.RegisterSingleton(_persistentWorldStateManager);
 
         var sceneDirector = new SceneDirector();
         ServiceLocator.RegisterSingleton<ISceneDirector>(sceneDirector);
@@ -63,6 +73,8 @@ public class GameFlowManager : MonoBehaviour
         _uiService.Register(ScreenTypes.LevelLoaderScreen, _levelLoaderScreen);
         _uiService.Register(ScreenTypes.LevelDetailScreen, _levelDetailScreen);
         _uiService.Register(ScreenTypes.StoryScreen, _storyScreen);
+
+        systems.Add(_persistentItemSaveManager);
 
         // Show main menu at game start
         await ui.ShowScreenAsync<object>(ScreenTypes.AuthScren);

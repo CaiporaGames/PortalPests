@@ -1,29 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Aegis.GrenadeSystem.HiEx {
+[RequireComponent(typeof(PersistentWorldObjectIdentity))]
 public class DamageHandler : MonoBehaviour
 {
+    [SerializeField] private float health = 5f;
+    [SerializeField] private GameObject prefabVisuals;
+    [SerializeField] private AudioClip destroySFX;
+    private PersistentWorldObjectIdentity _identity;
+    private PersistentWorldStateManager _worldStateManager;
+    private bool _isDestroyed;
+    private AudioSource _audioSource;
 
-    //This script is a placeholder for handling the damage applied by the explosion of the grenade.
-
-    //You should create your own script for handling damage to your player or enemies, or else adapt this one 
-    //to apply the damage incurred by the grenade explosion.
-
-    //This is the health the object has 
-    float health = 100f;
-
+    private void Awake()
+    {
+        _identity = GetComponent<PersistentWorldObjectIdentity>();
+        _worldStateManager = ServiceLocator.Resolve<PersistentWorldStateManager>();
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     public void ApplyDamage(float dam)
     {
         health -= dam;
-
-        //console message to test damage taken by object due to grenade explosion
-        Debug.Log(gameObject.name + " took " + dam + " Damage from the Grenade");
+        if (health <= 0) DestroyCrateAsync().Forget();    
     }
 
 
+    public async UniTask DestroyCrateAsync()
+    {
+        if (_isDestroyed) return;
+
+        _isDestroyed = true;
+
+        if (!_worldStateManager.IsInitialized)
+            await _worldStateManager.InitializeAsync();
+
+        await _worldStateManager.MarkDestroyedAsync(_identity);
+
+        prefabVisuals.SetActive(false);
+        if (destroySFX != null && _audioSource != null)
+        {
+            _audioSource.pitch = Random.Range(0.9f, 1.1f); // Slight variation
+            _audioSource.PlayOneShot(destroySFX);
+        }
+    }
 }
 
-}

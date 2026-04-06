@@ -138,7 +138,7 @@ namespace Aegis.GrenadeSystem.HiEx
             {
 
                 //if an Enemy or player is nearby the explosion, apply damage
-                if (nearbyobject.tag == "Player" || nearbyobject.tag == "Enemy")
+                if (nearbyobject.tag == "Player" || nearbyobject.tag == "Enemy" || nearbyobject.tag == "Target")
                 {
                     DamageHandler healthobject = nearbyobject.GetComponent<DamageHandler>();
 
@@ -148,15 +148,13 @@ namespace Aegis.GrenadeSystem.HiEx
                     }
                 }
 
-
-
             }
 
             foreach (Collider farobject in farcolliders)
             {
 
                 //if an Enemy or player is nearby the explosion, apply damage
-                if (farobject.tag == "Player" || farobject.tag == "Enemy")
+                if (farobject.tag == "Player" || farobject.tag == "Enemy" || farobject.tag == "Target")
                 {
                     DamageHandler healthobject = farobject.GetComponent<DamageHandler>();
 
@@ -268,9 +266,6 @@ namespace Aegis.GrenadeSystem.HiEx
 
                 audioSource.Play();
             }
-
         }
-
     }
-
 }
