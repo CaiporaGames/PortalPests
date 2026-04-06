@@ -10,8 +10,8 @@ public class EndCheckpoint : MonoBehaviour
             return;
         
         
-        GameSystem.Instance.StopTimer();
-        GameSystem.Instance.FinishRun();
+      /*   GameSystem.Instance.StopTimer();
+        GameSystem.Instance.FinishRun(); */
         Destroy(gameObject);
     }
 }

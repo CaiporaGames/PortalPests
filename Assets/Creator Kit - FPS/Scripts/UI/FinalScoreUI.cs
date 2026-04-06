@@ -21,7 +21,7 @@ public class FinalScoreUI : MonoBehaviour
 
     public void Display()
     {
-        gameObject.SetActive(true);
+       /*  gameObject.SetActive(true);
         
         float time = GameSystem.Instance.RunTime;
         int targetDestroyed = GameSystem.Instance.DestroyedTarget;
@@ -34,6 +34,6 @@ public class FinalScoreUI : MonoBehaviour
         Penalty.text = missedTarget +"*"+ GameSystem.Instance.TargetMissedPenalty.ToString("N2")+"s = "+ penaltyAmount.ToString("N2") + "s";
         FinalTime.text = (time + penaltyAmount).ToString("N2") + "s";
 
-        FinalScore.text = GameSystem.Instance.Score.ToString("N");
+        FinalScore.text = GameSystem.Instance.Score.ToString("N"); */
     }
 }
