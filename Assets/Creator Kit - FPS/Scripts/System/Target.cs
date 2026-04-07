@@ -2,6 +2,13 @@
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
+//which target died, in which scene it happened
+public struct TargetDestroyedPayload
+{
+    public string targetId;
+    public string sceneName;
+}
+
 [RequireComponent(typeof(PersistentWorldObjectIdentity))]
 public class Target : MonoBehaviour
 {
@@ -95,6 +102,14 @@ public class Target : MonoBehaviour
             await _worldStateManager.InitializeAsync();
 
         await _worldStateManager.MarkDestroyedAsync(_identity);
+        
+        EventBus.TriggerEvent(EventType.TargetDestroyed,
+            new TargetDestroyedPayload
+            {
+                targetId = _identity.ObjectId,
+                sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+            }
+        );
 
         gameObject.SetActive(false);
     }

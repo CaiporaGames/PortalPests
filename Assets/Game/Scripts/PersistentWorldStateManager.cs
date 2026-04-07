@@ -26,6 +26,21 @@ public class PersistentWorldStateManager : MonoBehaviour, IGameSystem
         IsInitialized = true;
     }
 
+    public bool IsActivated(PersistentWorldObjectIdentity identity)
+    {
+        var state = GetOrCreateState(identity);
+        return state.isActivated;
+    }
+
+    public async UniTask MarkActivatedAsync(PersistentWorldObjectIdentity identity)
+    {
+        var state = GetOrCreateState(identity);
+        state.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        state.isActivated = true;
+
+        await SaveAsync();
+    }
+
     private void RebuildLookup()
     {
         _lookup.Clear();

@@ -5,6 +5,7 @@ public class PersistentWorldObjectState : IBinarySerializable
     public string objectId;
     public string sceneName;
     public bool isDestroyed;
+    public bool isActivated;
 
     public PersistentWorldObjectState() { }
 
@@ -13,6 +14,7 @@ public class PersistentWorldObjectState : IBinarySerializable
         writer.Write(objectId ?? "");
         writer.Write(sceneName ?? "");
         writer.Write(isDestroyed);
+        writer.Write(isActivated);
     }
 
     public void Deserialize(BinaryReader reader)
@@ -20,5 +22,6 @@ public class PersistentWorldObjectState : IBinarySerializable
         objectId = reader.ReadString();
         sceneName = reader.ReadString();
         isDestroyed = reader.ReadBoolean();
+        isActivated = reader.ReadBoolean();
     }
 }
