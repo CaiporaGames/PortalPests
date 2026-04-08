@@ -23,6 +23,7 @@ public class GameFlowManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private PersistentItemSaveManager _persistentItemSaveManager;
     [SerializeField] private PersistentWorldStateManager _persistentWorldStateManager;
+    [SerializeField] private SceneTransitionManager _sceneTransitionManager;
 
 
     private List<IGameSystem> systems = new();
@@ -41,6 +42,7 @@ public class GameFlowManager : MonoBehaviour
         //##### Register managers
         ServiceLocator.RegisterSingleton(_persistentItemSaveManager);
         ServiceLocator.RegisterSingleton(_persistentWorldStateManager);
+        ServiceLocator.RegisterSingleton(_sceneTransitionManager);
 
         var sceneDirector = new SceneDirector();
         ServiceLocator.RegisterSingleton<ISceneDirector>(sceneDirector);
