@@ -47,9 +47,9 @@ public class Target : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-
-        if (DestroyedEffect)
-            PoolSystem.Instance.InitPool(DestroyedEffect, 16);
+        //TODO: maybe we need to handle the destroy effect
+      /*   if (DestroyedEffect)
+            PoolSystem.Instance.InitPool(DestroyedEffect, 16); */
 
         m_CurrentHealth = health;
 

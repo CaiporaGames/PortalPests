@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 public class SceneTransitionManager : MonoBehaviour
 {
     [SerializeField] private float fadeDuration = 0.35f;
-    [SerializeField] private CharacterController player;
     [SerializeField] private GameObject[] spawnPoints;
     private bool _isTransitioning;
+    private CharacterController player;
 
     public bool IsTransitioning => _isTransitioning;
 
@@ -78,6 +78,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void MovePlayerToSpawn(SceneTravelDirection direction)
     {
+        var player = FindFirstObjectByType<CharacterController>();
+        if (player == null)
+        {
+            Debug.LogError("SceneTransitionManager: No CharacterController found.");
+            return;
+        }
         SceneTravelDirection arrivalDirection =
             direction == SceneTravelDirection.Next
             ? SceneTravelDirection.Previous

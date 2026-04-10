@@ -10,12 +10,6 @@ public class PoolSystem : MonoBehaviour
 {
     public static PoolSystem Instance { get; private set; }
 
-    public static void Create()
-    {
-        GameObject obj = new GameObject("PoolSystem");
-        Instance = obj.AddComponent<PoolSystem>();
-    }
-
     Dictionary<Object, Queue<Object>> m_Pools = new Dictionary<Object, Queue<Object>>();
 
     public void InitPool(UnityEngine.Object prefab, int size)

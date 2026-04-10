@@ -34,7 +34,12 @@ public class PersistentPickableItem : MonoBehaviour
 
     private async void Start()
     {
-        _saveManager = FindFirstObjectByType<PersistentItemSaveManager>();
+        EventBus.Subscribe<bool>(EventType.InitializeMethods, Initialize);
+    }
+
+    private async void Initialize(bool dummy)
+    {
+        _saveManager = ServiceLocator.Resolve<PersistentItemSaveManager>();
         _hipInventory = FindFirstObjectByType<HipInventory>();
 
         if (_saveManager != null && !_saveManager.IsInitialized)

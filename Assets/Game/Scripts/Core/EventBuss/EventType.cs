@@ -2,5 +2,6 @@ public enum EventType
 {
     PlayerBoxChanged,
     GrenadePickedUp,
-    TargetDestroyed
+    TargetDestroyed,
+    InitializeMethods
 }

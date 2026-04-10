@@ -8357,7 +8357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a05c93476159f3498b19b2591ea3347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersistentItemIdentity
-  itemId: 
+  itemId: 78dcc33cbbb647df8d2a8f0ed9480914
   itemType: 5
 --- !u!54 &585937558
 Rigidbody:
@@ -13818,11 +13818,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5512762761802256878, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+      propertyPath: _persistentItemSaveManager
+      value: 
+      objectReference: {fileID: 1044300778}
+    - target: {fileID: 5512762761802256878, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+      propertyPath: _persistentWorldStateManager
+      value: 
+      objectReference: {fileID: 1044300777}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6523058393656438837, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1044300778}
+    - targetCorrespondingSourceObject: {fileID: 6523058393656438837, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1044300777}
   m_SourcePrefab: {fileID: 100100000, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+--- !u!1 &1044300775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6523058393656438837, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+  m_PrefabInstance: {fileID: 1044300774}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1044300776 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2533334442892770824, guid: 91b7c250195839a4f95d82aafab4f0f1, type: 3}
+  m_PrefabInstance: {fileID: 1044300774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044300775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1b6e456b4800940af81850d2674275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1044300777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044300775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ebbff49738c4c4b84893a9035295f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentWorldStateManager
+--- !u!114 &1044300778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044300775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc286e87f4c568841a0db02eb88fe687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentItemSaveManager
+  saveServiceBehaviour: {fileID: 1044300776}
 --- !u!1001 &1044931929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27764,7 +27819,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2215681043825858987, guid: 29b5d3974c0a376488c06c7480a4373c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -27781,8 +27837,8 @@ SceneRoots:
   - {fileID: 566210037}
   - {fileID: 3052811342095449489}
   - {fileID: 6881669253259682332}
-  - {fileID: 1982744424}
   - {fileID: 7380543990553329816}
+  - {fileID: 1982744424}
   - {fileID: 1693761622}
   - {fileID: 1153786440}
   - {fileID: 6739327480350645199}

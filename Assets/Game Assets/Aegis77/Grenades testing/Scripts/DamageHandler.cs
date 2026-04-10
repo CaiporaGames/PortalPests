@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -17,8 +18,13 @@ public class DamageHandler : MonoBehaviour
     private void Awake()
     {
         _identity = GetComponent<PersistentWorldObjectIdentity>();
-        _worldStateManager = ServiceLocator.Resolve<PersistentWorldStateManager>();
         _audioSource = GetComponent<AudioSource>();
+        EventBus.Subscribe<Boolean>(EventType.InitializeMethods, Initialize);
+    }
+
+    private void Initialize(bool dummy)
+    {
+        _worldStateManager = ServiceLocator.Resolve<PersistentWorldStateManager>();
     }
 
     public void ApplyDamage(float dam)
@@ -42,7 +48,7 @@ public class DamageHandler : MonoBehaviour
         prefabVisuals.SetActive(false);
         if (destroySFX != null && _audioSource != null)
         {
-            _audioSource.pitch = Random.Range(0.9f, 1.1f); // Slight variation
+            _audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f); // Slight variation
             _audioSource.PlayOneShot(destroySFX);
         }
     }
