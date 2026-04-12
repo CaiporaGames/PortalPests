@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public enum SceneTravelDirection
+public enum SceneArrivalType
 {
-    Next,
-    Previous
+    None,
+    FromPrevious,
+    FromNext
 }
 
 public class SceneTransitionSpawnPoint
 {
-    [SerializeField] private SceneTravelDirection arrivalDirection;
+    [SerializeField] private SceneArrivalType arrivalType;
 
-    public SceneTravelDirection ArrivalDirection => arrivalDirection;
+    public SceneArrivalType ArrivalType => arrivalType;
 }

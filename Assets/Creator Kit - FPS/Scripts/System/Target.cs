@@ -18,7 +18,7 @@ public class Target : MonoBehaviour
 
     [Header("Audio")]
     public RandomPlayer HitPlayer;
-    public AudioSource IdleSource;
+    private AudioSource _audioSource;
 
     public bool Destroyed => m_Destroyed;
 
@@ -38,6 +38,7 @@ public class Target : MonoBehaviour
 
     async void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         if (!_worldStateManager.IsInitialized)
             await _worldStateManager.InitializeAsync();
 
@@ -53,8 +54,8 @@ public class Target : MonoBehaviour
 
         m_CurrentHealth = health;
 
-        if (IdleSource != null && IdleSource.clip != null)
-            IdleSource.time = Random.Range(0.0f, IdleSource.clip.length);
+        if (_audioSource != null && _audioSource.clip != null)
+            _audioSource.time = Random.Range(0.0f, _audioSource.clip.length);
     }
 
     public void Got(float damage)
@@ -82,18 +83,16 @@ public class Target : MonoBehaviour
 
         if (HitPlayer != null)
         {
-            var source = WorldAudioPool.GetWorldSFXSource();
-            source.transform.position = position;
-            source.pitch = HitPlayer.source.pitch;
-            source.PlayOneShot(HitPlayer.GetRandomClip());
+            _audioSource.pitch = HitPlayer.source.pitch;
+            _audioSource.PlayOneShot(HitPlayer.GetRandomClip());
         }
 
         if (DestroyedEffect != null)
         {
-            var effect = PoolSystem.Instance.GetInstance<ParticleSystem>(DestroyedEffect);
-            effect.time = 0.0f;
-            effect.transform.position = position;
-            effect.Play();
+            //var effect = PoolSystem.Instance.GetInstance<ParticleSystem>(DestroyedEffect);
+            DestroyedEffect.time = 0.0f;
+            DestroyedEffect.transform.position = position;
+            DestroyedEffect.Play();
         }
 
         m_Destroyed = true;

@@ -2,107 +2,146 @@ using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//This is the Unity‑native, zero‑overhead, built‑in way to store temporary state.
+// It is a static class with static fields, so it will persist across scene loads and be accessible from anywhere. 
+//We use it to store the pending arrival type during scene transitions,
+// so that the spawn point in the new scene can read it and position the player accordingly. 
+//This avoids the need for more complex state management solutions or passing data through scene parameters.
+public static class SceneTransitionData
+{
+    public static SceneArrivalType PendingArrivalType;
+}
 //In all the scenes we have two corridors. So, in each we need to enable the next or previous trigger and also put each corresponding
 // one in the corresponding corridor.
+
 public class SceneTransitionManager : MonoBehaviour
 {
+    [Header("Fade")]
     [SerializeField] private float fadeDuration = 0.35f;
-    [SerializeField] private GameObject[] spawnPoints;
+
+    [Header("Player References")]
+    [SerializeField] private Transform xrOriginRoot;
+    [SerializeField] private Transform xrCamera;
+    [SerializeField] private CharacterController characterController;
+    [Header("Spawn Points")]
+    [SerializeField] private GameObject[] _spawnPoints;
+
+    //[Header("Optional Locomotion Control")]
+    //[SerializeField] private MonoBehaviour[] locomotionBehavioursToDisable;
+
     private bool _isTransitioning;
-    private CharacterController player;
 
     public bool IsTransitioning => _isTransitioning;
 
-    public async UniTask TryTransitionAsync(SceneTravelDirection direction)
+    private async void Awake()
+    {
+        var scene = SceneManager.GetActiveScene();
+
+        if (scene.buildIndex == 0) // or compare by name
+            return;
+
+        await UniTask.Yield();
+        MovePlayerToSpawnVR(SceneTransitionData.PendingArrivalType);
+
+        var fade = FindFirstObjectByType<ScreenFadeController>();
+        if (fade != null)
+            await fade.FadeInAsync(fadeDuration);
+    }
+
+    public async UniTask TryTransitionAsync(string targetSceneName, SceneArrivalType targetArrivalType)
     {
         if (_isTransitioning)
             return;
 
         _isTransitioning = true;
 
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        string targetSceneName = GetTargetSceneName(currentSceneName, direction);
-
-        if (string.IsNullOrEmpty(targetSceneName))
-        {
-            Debug.LogWarning($"No valid target scene found from '{currentSceneName}' going '{direction}'.");
-            _isTransitioning = false;
-            return;
-        }
-
         var fade = FindFirstObjectByType<ScreenFadeController>();
         if (fade != null)
             await fade.FadeOutAsync(fadeDuration);
 
-        await LoadSceneAndMovePlayerAsync(targetSceneName, direction);
+        SceneTransitionData.PendingArrivalType = targetArrivalType;
 
-        if (fade != null)
-            await fade.FadeInAsync(fadeDuration);
+        await SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Single);
 
         _isTransitioning = false;
     }
 
-    private string GetTargetSceneName(string currentSceneName, SceneTravelDirection direction)
+    private void MovePlayerToSpawnVR(SceneArrivalType arrivalType)
     {
-        Match match = Regex.Match(currentSceneName, @"^Level\s+(\d+)$");
-        if (!match.Success)
+
+        GameObject targetSpawn = null;
+
+        foreach (var spawn in _spawnPoints)
         {
-            Debug.LogError($"Scene name '{currentSceneName}' does not match expected format 'Level X'.");
-            return null;
+            var spawnPoint = spawn.GetComponentInParent<SceneTransitionTrigger>();
+            if (spawnPoint.TargetArrivalType == arrivalType)
+            {
+                targetSpawn = spawn;
+                break;
+            }
         }
 
-        int levelNumber = int.Parse(match.Groups[1].Value);
-
-        if (direction == SceneTravelDirection.Next)
-            levelNumber++;
-        else
-            levelNumber--;
-
-        if (levelNumber < 1)
-            return null;
-
-        return $"Level {levelNumber}";
-    }
-
-    private async UniTask LoadSceneAndMovePlayerAsync(string targetSceneName, SceneTravelDirection direction)
-    {
-        var loadOp = SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Single);
-
-        while (!loadOp.isDone)
-            await UniTask.Yield();
-
-        await UniTask.Yield();
-
-        MovePlayerToSpawn(direction);
-    }
-
-    private void MovePlayerToSpawn(SceneTravelDirection direction)
-    {
-        var player = FindFirstObjectByType<CharacterController>();
-        if (player == null)
+        if (targetSpawn == null)
         {
-            Debug.LogError("SceneTransitionManager: No CharacterController found.");
+            Debug.LogWarning($"No spawn point found for arrival type '{arrivalType}'.");
             return;
         }
-        SceneTravelDirection arrivalDirection =
-            direction == SceneTravelDirection.Next
-            ? SceneTravelDirection.Previous
-            : SceneTravelDirection.Next;
 
-
-        foreach (var spawn in spawnPoints)
+        if (xrOriginRoot == null || xrCamera == null)
         {
-            if (spawn.GetComponent<SceneTransitionSpawnPoint>().ArrivalDirection != arrivalDirection) continue;
-
-            bool wasEnabled = player.enabled;
-            player.enabled = false;
-
-            Transform root = player.transform;
-            root.position = spawn.transform.position;
-            root.rotation = spawn.transform.rotation;
-
-            player.enabled = wasEnabled;
+            Debug.LogError("SceneTransitionManager: XR Origin Root or XR Camera is missing.");
             return;
         }
+
+        Vector3 cameraOffset = xrCamera.position - xrOriginRoot.position;
+        cameraOffset.y = 0f;
+
+        Vector3 targetPosition = targetSpawn.transform.position - cameraOffset;
+
+        Quaternion targetRotation = targetSpawn.transform.rotation;
+
+        bool hadCharacterController = characterController != null && characterController.enabled;
+        if (hadCharacterController)
+            characterController.enabled = false;
+
+        // Rotate origin so player faces the intended spawn forward
+        Vector3 currentForward = xrCamera.forward;
+        currentForward.y = 0f;
+
+        Vector3 targetForward = targetSpawn.transform.forward;
+        targetForward.y = 0f;
+
+        if (currentForward.sqrMagnitude > 0.0001f && targetForward.sqrMagnitude > 0.0001f)
+        {
+            float angle = Vector3.SignedAngle(currentForward, targetForward, Vector3.up);
+            xrOriginRoot.Rotate(Vector3.up, angle);
+        }
+
+        // Recompute offset after rotation
+        cameraOffset = xrCamera.position - xrOriginRoot.position;
+        cameraOffset.y = 0f;
+
+        targetPosition = targetSpawn.transform.position - cameraOffset;
+        xrOriginRoot.position = targetPosition;
+
+        if (hadCharacterController)
+            characterController.enabled = true;
     }
+
+    public void OnSceneLoaded()
+    {
+        Destroy(gameObject);
+    }
+
+  /*   private void SetLocomotionEnabled(bool enabled)
+    {
+        if (locomotionBehavioursToDisable == null)
+            return;
+
+        for (int i = 0; i < locomotionBehavioursToDisable.Length; i++)
+        {
+            if (locomotionBehavioursToDisable[i] != null)
+                locomotionBehavioursToDisable[i].enabled = enabled;
+        }
+    } */
 }
