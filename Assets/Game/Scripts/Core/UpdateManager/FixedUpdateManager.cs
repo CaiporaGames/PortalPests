@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic; 
 using UnityEngine;
 
-public class FixedUpdateManager : MonoBehaviour, IFixedUpdateManager
+public class FixedUpdateManager : IFixedUpdateManager
 {
     public void Register(Action<float> cb){ if(!_subs.Contains(cb)) _subs.Add(cb);}
 

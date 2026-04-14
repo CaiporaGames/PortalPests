@@ -12,13 +12,12 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] private LevelDetailUIScreen _levelDetailScreen;
     [SerializeField] private StoryScreen _storyScreen;
  */
-    [Header("Services")]
+   /*  [Header("Services")] */
     //[SerializeField] private UIService _uiService;
-    [SerializeField] private BinarySaveService _saveService;
    /*  [SerializeField] private MonoPool<GameObject> _bulletPool; */
-    [SerializeField] UpdateManager _updateManager;
-    [SerializeField] FixedUpdateManager _fixedUpdateManager;
-    [SerializeField] LateUpdateManager _lateUpdateManager;
+    //[SerializeField] UpdateManager _updateManager;
+    /* [SerializeField] FixedUpdateManager _fixedUpdateManager;
+    [SerializeField] LateUpdateManager _lateUpdateManager; */
 
     [Header("Managers")]
     [SerializeField] private PersistentItemSaveManager _persistentItemSaveManager;
@@ -35,7 +34,8 @@ public class GameFlowManager : MonoBehaviour
         _authService = new PlayFabAuthService();
         ServiceLocator.RegisterSingleton<IAuthService>(_authService);
         //ServiceLocator.RegisterSingleton<IUIService>(_uiService);
-        ServiceLocator.RegisterSingleton<ISaveService>(_saveService);
+        var saveService = new BinarySaveService();
+        ServiceLocator.RegisterSingleton<ISaveService>(saveService);
 
         //##### Register managers
         ServiceLocator.RegisterSingleton(_persistentItemSaveManager);
@@ -53,8 +53,11 @@ public class GameFlowManager : MonoBehaviour
 
 
         /*   ServiceLocator.RegisterSingleton<IObjectPool<GameObject>>(_bulletPool); */
+        var _updateManager = new UpdateManager();
         ServiceLocator.RegisterSingleton<IUpdateManager>(_updateManager);
+        var _fixedUpdateManager = new FixedUpdateManager();
         ServiceLocator.RegisterSingleton<IFixedUpdateManager>(_fixedUpdateManager); // FixedUpdate
+        var _lateUpdateManager = new LateUpdateManager();
         ServiceLocator.RegisterSingleton<ILateUpdateManager>(_lateUpdateManager); 
         // _uiService.Register("Settings", _settingsController);
     }

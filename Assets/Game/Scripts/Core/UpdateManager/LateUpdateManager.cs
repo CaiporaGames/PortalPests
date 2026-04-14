@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LateUpdateManager : MonoBehaviour, ILateUpdateManager
+public class LateUpdateManager : ILateUpdateManager
 {
     public void Register(Action<float> cb){ if(!_subs.Contains(cb)) _subs.Add(cb);}
 

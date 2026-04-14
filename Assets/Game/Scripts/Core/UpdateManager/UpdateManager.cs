@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpdateManager : MonoBehaviour, IUpdateManager
+public class UpdateManager : IUpdateManager
 {
     // Use List<T> for cache-friendly iteration
     private readonly List<Action<float>> _subscribers = new();
