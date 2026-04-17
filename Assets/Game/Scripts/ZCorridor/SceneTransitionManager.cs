@@ -35,13 +35,13 @@ public class SceneTransitionManager : MonoBehaviour
 
     private async void Awake()
     {
-        var scene = SceneManager.GetActiveScene();
-
-        if (scene.buildIndex == 0) // or compare by name
-            return;
-
         await UniTask.Yield();
-        MovePlayerToSpawnVR(SceneTransitionData.PendingArrivalType);
+
+        if (SceneTransitionData.PendingArrivalType != SceneArrivalType.None)
+        {
+            MovePlayerToSpawnVR(SceneTransitionData.PendingArrivalType);
+            SceneTransitionData.PendingArrivalType = SceneArrivalType.None;
+        }
 
         var fade = FindFirstObjectByType<ScreenFadeController>();
         if (fade != null)
@@ -68,15 +68,15 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void MovePlayerToSpawnVR(SceneArrivalType arrivalType)
     {
-
-        GameObject targetSpawn = null;
+        SceneTransitionSpawnPoint targetSpawn = null;
 
         foreach (var spawn in _spawnPoints)
         {
-            var spawnPoint = spawn.GetComponentInParent<SceneTransitionTrigger>();
-            if (spawnPoint.TargetArrivalType == arrivalType)
+            var spawnPoint = spawn.GetComponent<SceneTransitionSpawnPoint>();
+
+            if (spawnPoint != null && spawnPoint.ArrivalType == arrivalType)
             {
-                targetSpawn = spawn;
+                targetSpawn = spawnPoint;
                 break;
             }
         }
@@ -93,18 +93,11 @@ public class SceneTransitionManager : MonoBehaviour
             return;
         }
 
-        Vector3 cameraOffset = xrCamera.position - xrOriginRoot.position;
-        cameraOffset.y = 0f;
-
-        Vector3 targetPosition = targetSpawn.transform.position - cameraOffset;
-
-        Quaternion targetRotation = targetSpawn.transform.rotation;
-
         bool hadCharacterController = characterController != null && characterController.enabled;
         if (hadCharacterController)
             characterController.enabled = false;
 
-        // Rotate origin so player faces the intended spawn forward
+        // --- ROTATION ---
         Vector3 currentForward = xrCamera.forward;
         currentForward.y = 0f;
 
@@ -117,17 +110,16 @@ public class SceneTransitionManager : MonoBehaviour
             xrOriginRoot.Rotate(Vector3.up, angle);
         }
 
-        // Recompute offset after rotation
-        cameraOffset = xrCamera.position - xrOriginRoot.position;
+        // --- POSITION ---
+        Vector3 cameraOffset = xrCamera.position - xrOriginRoot.position;
         cameraOffset.y = 0f;
 
-        targetPosition = targetSpawn.transform.position - cameraOffset;
+        Vector3 targetPosition = targetSpawn.transform.position - cameraOffset;
         xrOriginRoot.position = targetPosition;
 
         if (hadCharacterController)
             characterController.enabled = true;
     }
-
     public void OnSceneLoaded()
     {
         Destroy(gameObject);

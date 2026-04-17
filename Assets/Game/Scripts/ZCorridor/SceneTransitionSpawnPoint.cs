@@ -7,7 +7,7 @@ public enum SceneArrivalType
     FromNext
 }
 
-public class SceneTransitionSpawnPoint
+public class SceneTransitionSpawnPoint : MonoBehaviour
 {
     [SerializeField] private SceneArrivalType arrivalType;
 

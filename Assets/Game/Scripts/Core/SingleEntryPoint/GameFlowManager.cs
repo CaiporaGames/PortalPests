@@ -22,12 +22,19 @@ public class GameFlowManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private PersistentItemSaveManager _persistentItemSaveManager;
     [SerializeField] private PersistentWorldStateManager _persistentWorldStateManager;
-
+    private static GameFlowManager _instance;
 
     private List<IGameSystem> systems = new();
     private IAuthService _authService;
     private void Awake()
     {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
         DontDestroyOnLoad(gameObject);
 
         //##### Register services
