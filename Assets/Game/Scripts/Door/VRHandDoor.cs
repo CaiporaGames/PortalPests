@@ -8,7 +8,7 @@ public class VRHandDoor : MonoBehaviour
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable handleGrabInteractable;
 
     [Header("Door Limits")]
-    [SerializeField] private float minAngle = 0f;
+    [SerializeField] private float minAngle = -100f;
     [SerializeField] private float maxAngle = 100f;
 
     [Header("Behavior")]
@@ -18,6 +18,20 @@ public class VRHandDoor : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool invertDirection = false;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] openSounds;
+
+    [SerializeField] private float minPitch = 0.9f;
+    [SerializeField] private float maxPitch = 1.1f;
+
+    [SerializeField] private float minVolume = 0.8f;
+    [SerializeField] private float maxVolume = 1.0f;
+
+    [SerializeField] private float openThreshold = 5f; // degrees
+
+    private bool _hasPlayedOpenSound;
 
     private Transform _grabbingHand;
     private bool _isGrabbed;
@@ -64,6 +78,19 @@ public class VRHandDoor : MonoBehaviour
         _currentAngle = Mathf.Lerp(_currentAngle, _targetAngle, Time.deltaTime * followSpeed);
         _currentAngle = Mathf.Clamp(_currentAngle, minAngle, maxAngle);
 
+        // Detect opening
+        if (!_hasPlayedOpenSound && Mathf.Abs(_currentAngle) > openThreshold)
+        {
+            TryPlayOpenSound();
+            _hasPlayedOpenSound = true;
+        }
+
+        // Reset when closed again
+        if (Mathf.Abs(_currentAngle) < 1f)
+        {
+            _hasPlayedOpenSound = false;
+        }
+
         hingePivot.localRotation = _initialLocalRotation * Quaternion.Euler(0f, _currentAngle, 0f);
     }
 
@@ -89,23 +116,13 @@ public class VRHandDoor : MonoBehaviour
 
     private float CalculateHandDrivenAngle()
     {
-        Vector3 localHandPos = hingePivot.parent != null
-            ? hingePivot.parent.InverseTransformPoint(_grabbingHand.position)
-            : _grabbingHand.position;
+        Vector3 localHandPos = hingePivot.InverseTransformPoint(_grabbingHand.position);
+        localHandPos.y = 0f;
 
-        Vector3 localHingePos = hingePivot.parent != null
-            ? hingePivot.parent.InverseTransformPoint(hingePivot.position)
-            : hingePivot.position;
-
-        Vector3 dir = localHandPos - localHingePos;
-        dir.y = 0f;
-
-        if (dir.sqrMagnitude < 0.0001f)
+        if (localHandPos.sqrMagnitude < 0.0001f)
             return _currentAngle;
 
-        dir.Normalize();
-
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(localHandPos.x, localHandPos.z) * Mathf.Rad2Deg;
 
         if (invertDirection)
             angle = -angle;
@@ -143,5 +160,18 @@ public class VRHandDoor : MonoBehaviour
         _targetAngle = minAngle;
         _currentAngle = minAngle;
         hingePivot.localRotation = _initialLocalRotation * Quaternion.Euler(0f, _currentAngle, 0f);
+    }
+
+    private void TryPlayOpenSound()
+    {
+        if (audioSource == null || openSounds == null || openSounds.Length == 0)
+            return;
+
+        int index = Random.Range(0, openSounds.Length);
+
+        audioSource.pitch = Random.Range(minPitch, maxPitch);
+        audioSource.volume = Random.Range(minVolume, maxVolume);
+
+        audioSource.PlayOneShot(openSounds[index]);
     }
 }
