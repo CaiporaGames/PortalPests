@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PersistentItemSaveManager : MonoBehaviour, IGameSystem
 {
-    [SerializeField] private MonoBehaviour saveServiceBehaviour;
-
     private ISaveService _saveService;
     private PersistentItemsData _data;
 

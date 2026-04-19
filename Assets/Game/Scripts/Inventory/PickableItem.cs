@@ -24,6 +24,8 @@ public class PersistentPickableItem : MonoBehaviour
 
     private InventorySlot _currentSlot;
     public InventorySlot CurrentSlot => _currentSlot;
+    private bool _isRuntimeInventoryInstance;
+
 
     private async void Awake()
     {
@@ -37,8 +39,25 @@ public class PersistentPickableItem : MonoBehaviour
         EventBus.Subscribe<bool>(EventType.InitializeMethods, Initialize);
     }
 
+    public void MarkAsRuntimeInventoryInstance()
+    {
+        _isRuntimeInventoryInstance = true;
+    }
+
     private async void Initialize(bool dummy)
     {
+        if (_isRuntimeInventoryInstance)
+        {
+            _saveManager = ServiceLocator.Resolve<PersistentItemSaveManager>();
+            _hipInventory = FindFirstObjectByType<HipInventory>();
+
+            _grab.selectEntered.AddListener(OnGrab);
+            _grab.selectExited.AddListener(OnRelease);
+
+            Debug.Log($"{name} is a runtime inventory instance. Skipping world-state initialization.");
+            return;
+        }
+        
         _saveManager = ServiceLocator.Resolve<PersistentItemSaveManager>();
         _hipInventory = FindFirstObjectByType<HipInventory>();
 
@@ -81,6 +100,8 @@ public class PersistentPickableItem : MonoBehaviour
 
     private void OnDestroy()
     {
+        EventBus.Unsubscribe<bool>(EventType.InitializeMethods, Initialize);
+
         if (_grab != null)
         {
             _grab.selectEntered.RemoveListener(OnGrab);
