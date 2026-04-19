@@ -1132,7 +1132,7 @@ GameObject:
   - component: {fileID: 3396940755236746209}
   - component: {fileID: 7472881281095192509}
   m_Layer: 2
-  m_Name: Slot_2
+  m_Name: Slot_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca967f2cbe7de14449f11c4b58ac1141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlot
-  slotIndex: 0
+  slotIndex: 1
   slotRenderer: {fileID: 0}
   emptyColor: {r: 0, g: 1, b: 0, a: 1}
   filledColor: {r: 0, g: 0, b: 1, a: 1}
@@ -1676,7 +1676,7 @@ GameObject:
   - component: {fileID: 1571177690113195954}
   - component: {fileID: 8477050932358693604}
   m_Layer: 2
-  m_Name: Slot_3
+  m_Name: Slot_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1787,7 +1787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca967f2cbe7de14449f11c4b58ac1141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlot
-  slotIndex: 0
+  slotIndex: 2
   slotRenderer: {fileID: 0}
   emptyColor: {r: 0, g: 1, b: 0, a: 1}
   filledColor: {r: 0, g: 0, b: 1, a: 1}
@@ -1806,7 +1806,7 @@ GameObject:
   - component: {fileID: 6792099051842308192}
   - component: {fileID: 1285657571760276127}
   m_Layer: 2
-  m_Name: Slot_4
+  m_Name: Slot_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1917,7 +1917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca967f2cbe7de14449f11c4b58ac1141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlot
-  slotIndex: 0
+  slotIndex: 3
   slotRenderer: {fileID: 0}
   emptyColor: {r: 0, g: 1, b: 0, a: 1}
   filledColor: {r: 0, g: 0, b: 1, a: 1}

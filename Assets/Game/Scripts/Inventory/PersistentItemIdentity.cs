@@ -1,5 +1,5 @@
 using UnityEngine;
-//IMPORTANT: Generate the ID once in the inspector and keep it forever.
+
 public class PersistentItemIdentity : MonoBehaviour
 {
     [SerializeField] private string itemId;
@@ -7,6 +7,11 @@ public class PersistentItemIdentity : MonoBehaviour
 
     public string ItemId => itemId;
     public PersistentItemType ItemType => itemType;
+
+    public void SetRuntimeItemId(string newId)
+    {
+        itemId = newId;
+    }
 
 #if UNITY_EDITOR
     [ContextMenu("Generate New ID")]

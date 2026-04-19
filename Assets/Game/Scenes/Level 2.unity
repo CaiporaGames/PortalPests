@@ -25639,6 +25639,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2064235469867309502, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064235469867309502, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2300892563861685389, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -25707,6 +25715,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PreviousCorridor
       objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_ThrowOnDetach
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_Colliders.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: 'm_Colliders.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1117085068}
     - target: {fileID: 6615635759613673329, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
       propertyPath: player
       value: 
@@ -25795,6 +25815,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionSpawnPoint
   arrivalType: 1
+--- !u!65 &1117085068 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3760152572606108171, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+  m_PrefabInstance: {fileID: 1117085064}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1118577477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32833,6 +32858,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2064235469867309502, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064235469867309502, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2300892563861685389, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
       propertyPath: targetSceneName
       value: Level 3
@@ -32901,6 +32934,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: NextCorridor
       objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_ThrowOnDetach
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_Colliders.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605096378812260445, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: 'm_Colliders.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1418867532}
     - target: {fileID: 6615635759613673329, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
       propertyPath: player
       value: 
@@ -32987,6 +33032,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionSpawnPoint
   arrivalType: 2
+--- !u!65 &1418867532 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3760152572606108171, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+  m_PrefabInstance: {fileID: 1418867528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1421745882
 PrefabInstance:
   m_ObjectHideFlags: 0

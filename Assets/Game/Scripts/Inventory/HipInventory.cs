@@ -41,9 +41,12 @@ public class HipInventory : MonoBehaviour
 
     public InventorySlot GetSlotByIndex(int index)
     {
-        if (index < 0 || index >= slots.Length)
-            return null;
+        foreach (var slot in slots)
+        {
+            if (slot != null && slot.SlotIndex == index)
+                return slot;
+        }
 
-        return slots[index];
+        return null;
     }
 }

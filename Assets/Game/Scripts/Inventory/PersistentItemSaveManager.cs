@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PersistentItemSaveManager : MonoBehaviour, IGameSystem
 {
-    [SerializeField] private MonoBehaviour saveServiceBehaviour;
-
     private ISaveService _saveService;
     private PersistentItemsData _data;
 
@@ -41,6 +39,11 @@ public class PersistentItemSaveManager : MonoBehaviour, IGameSystem
             if (!string.IsNullOrEmpty(record.itemId))
                 _lookup[record.itemId] = record;
         }
+    }
+
+    public IEnumerable<PersistentItemRecord> GetAllRecords()
+    {
+        return _data.items;
     }
 
     public PersistentItemRecord GetRecord(string itemId)
