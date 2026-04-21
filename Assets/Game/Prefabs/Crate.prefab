@@ -166,8 +166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageHandler
   health: 5
-  prefabVisuals: {fileID: 0}
-  destroySFX: {fileID: 0}
+  prefabVisuals: {fileID: 1844062195975914163}
+  destroySFX:
+  - {fileID: 8300000, guid: df6b41910a303094883a7c6c324d339e, type: 3}
+  - {fileID: 8300000, guid: 2cef284fd69788d46ab7a62aaa7009ce, type: 3}
 --- !u!54 &1239374350816554257
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -227,7 +229,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 2cef284fd69788d46ab7a62aaa7009ce, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.468
   m_Pitch: 1

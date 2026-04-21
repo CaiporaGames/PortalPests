@@ -9,7 +9,7 @@ public class DamageHandler : MonoBehaviour
 {
     [SerializeField] private float health = 5f;
     [SerializeField] private GameObject prefabVisuals;
-    [SerializeField] private AudioClip destroySFX;
+    [SerializeField] private AudioClip[] destroySFX;
     private PersistentWorldObjectIdentity _identity;
     private PersistentWorldStateManager _worldStateManager;
     private bool _isDestroyed;
@@ -49,7 +49,8 @@ public class DamageHandler : MonoBehaviour
         if (destroySFX != null && _audioSource != null)
         {
             _audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f); // Slight variation
-            _audioSource.PlayOneShot(destroySFX);
+            
+            _audioSource.PlayOneShot(destroySFX[UnityEngine.Random.Range(0, destroySFX.Length)]);
         }
     }
 }

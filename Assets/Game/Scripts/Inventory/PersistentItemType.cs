@@ -5,5 +5,6 @@ public enum PersistentItemType
     HeavyBall = 2,
     LensDisk = 3,
     Battery = 4,
-    Ball = 5
+    Ball = 5,
+    Coin = 6
 }
