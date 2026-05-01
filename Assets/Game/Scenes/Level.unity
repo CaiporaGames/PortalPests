@@ -11558,8 +11558,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c8aa1f804a5d14ca0366cc8d580699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Aegis.GrenadeSystem.HiEx.HiExGrenade
+  bombModel: {fileID: 0}
   explosionEffectPrefab: {fileID: 5481530993414605263, guid: 7a12b40fb78f3694ea3ba5830db032b4, type: 3}
   explosionParticleOffset: {x: 0, y: 1, z: 0}
+  hapticMaxDistance: 15
+  hapticAmplitude: 1
+  hapticDuration: 0.4
   explosionDelay: 3
   explosionForce: 1000
   explosionForceRadius: 5
@@ -11569,7 +11573,6 @@ MonoBehaviour:
   closeDam: 10
   nearDam: 5
   farDam: 1
-  audioSourcePrefab: {fileID: 1693761623}
   audioSource: {fileID: 376271990}
   impact: {fileID: 8300000, guid: a44786edd321a4244b37283aa32b3e4d, type: 3}
   explosionSounds:
@@ -39263,11 +39266,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d311d84d3635b243b0d32fbfc78633d, type: 3}
---- !u!1 &1693761623 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 538503049481493739, guid: 0d311d84d3635b243b0d32fbfc78633d, type: 3}
-  m_PrefabInstance: {fileID: 1693761622}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1697215378
 PrefabInstance:
   m_ObjectHideFlags: 0

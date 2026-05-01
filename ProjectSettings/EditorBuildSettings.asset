@@ -9,13 +9,28 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Game/Scenes/Level 1.unity
+    path: Assets/Game/Scenes/Level 0.unity
     guid: a8359fdf6d3f77846995483faac2958b
+  - enabled: 1
+    path: Assets/Game/Scenes/Level 1.unity
+    guid: 01618167dbba12b4e85eb1601f6289ef
   - enabled: 1
     path: Assets/Game/Scenes/Level 2.unity
     guid: fec91ef95a38afc47831007ff0442d14
+  - enabled: 1
+    path: Assets/Game/Scenes/Level 3.unity
+    guid: f67c77589d4332643ba4d83f8ec5c9f8
+  - enabled: 1
+    path: Assets/Game/Scenes/Level 4.unity
+    guid: 810c30429411f9543aef88aa78613b7f
+  - enabled: 1
+    path: Assets/Game/Scenes/Level 5.unity
+    guid: 56f1727d3d48cc845884059aa92e166b
+  - enabled: 1
+    path: Assets/Game/Scenes/Level 6.unity
+    guid: acc41045b565e714c99a33ce076683b0
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 9319d42972393a148a4daa680f2418fc, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 703ff6dc1aba07d48a72b5d14c6ef76e, type: 2}
   m_UseUCBPForAssetBundles: 0
