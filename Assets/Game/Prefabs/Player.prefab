@@ -2362,8 +2362,9 @@ GameObject:
   - component: {fileID: 3218112441255387084}
   - component: {fileID: 4526431503341822128}
   - component: {fileID: 315238974638653397}
-  - component: {fileID: 7511181357563181105}
   - component: {fileID: 1097932240101515686}
+  - component: {fileID: 5785082957088913574}
+  - component: {fileID: 7511181357563181105}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -2541,6 +2542,45 @@ MonoBehaviour:
   minInputMagnitude: 0.2
   minPitch: 0.85
   maxPitch: 1.15
+--- !u!114 &1097932240101515686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6826478252585430856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61effb8feb18cb48abc0df1adff574d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAutoSaveController
+  playerRoot: {fileID: 5227368316033443150}
+  characterController: {fileID: 4523513803403467029}
+--- !u!114 &5785082957088913574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6826478252585430856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe1b3ba817336a4bbf205a3e16deff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicVibeController
+  musicSource: {fileID: 7511181357563181105}
+  ambientClip: {fileID: 8300000, guid: ed94840eaccffff4b98f78c4f1b0b075, type: 3}
+  combatClip: {fileID: 8300000, guid: f21f3753c5ea3254fb3b7eb56c519a1c, type: 3}
+  ambientVolume: 0.7
+  combatVolume: 0.8
+  fadeOutDuration: 1
+  fadeInDuration: 1
+  returnToAmbientDelay: 6
+  player: {fileID: 5227368316033443150}
+  enemyDetectionRadius: 8
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!82 &7511181357563181105
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2638,20 +2678,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1097932240101515686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6826478252585430856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61effb8feb18cb48abc0df1adff574d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAutoSaveController
-  playerRoot: {fileID: 5227368316033443150}
-  characterController: {fileID: 4523513803403467029}
 --- !u!1 &7245463922710877591
 GameObject:
   m_ObjectHideFlags: 0
