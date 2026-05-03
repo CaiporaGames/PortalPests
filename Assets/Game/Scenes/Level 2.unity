@@ -15225,6 +15225,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
+--- !u!143 &616577219 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 4523513803403467029, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
+  m_PrefabInstance: {fileID: 616577218}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &616577220 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5227368316033443150, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
+  m_PrefabInstance: {fileID: 616577218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &622644604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49977,15 +49987,15 @@ PrefabInstance:
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: xrCamera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 616577220}
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: xrOriginRoot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 616577220}
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: characterController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 616577219}
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: '_spawnPoints.Array.data[0]'
       value: 
