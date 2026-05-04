@@ -143,7 +143,7 @@ MonoBehaviour:
   requiredEnemyCount: 1
   movingPart: {fileID: 4810994632473774931}
   openedLocalPosition: {x: -4.352958, y: 0.01, z: -19.603085}
-  openDuration: 3
+  openDuration: 5
   audioSource: {fileID: 2652673179644439525}
   openClip: {fileID: 8300000, guid: 9f49463e28186eb49a2b06972b192d01, type: 3}
 --- !u!82 &2652673179644439525

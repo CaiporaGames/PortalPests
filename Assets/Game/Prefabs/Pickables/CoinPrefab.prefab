@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersistentItemIdentity
   itemId: dbbcc20d82dc4c3293b5b64808d2dd07
-  itemType: 0
+  itemType: 6
 --- !u!54 &5386253480121004718
 Rigidbody:
   m_ObjectHideFlags: 0
