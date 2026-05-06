@@ -1,9 +1,20 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
+[RequireComponent(typeof(XRSimpleInteractable))]
 public class RigidbodyMassPressureButtonChestOpener : MonoBehaviour
 {
+    [Header("XR")]
+    [SerializeField] private XRSimpleInteractable simpleInteractable;
+
+    [Tooltip("Trigger/volume used to detect weighted rigidbodies over the button.")]
+    [SerializeField] private Collider weightCheckCollider;
+
+    [SerializeField] private LayerMask weightLayerMask = ~0;
+
     [Header("Weight")]
     [SerializeField] private float requiredMass = 5f;
     [SerializeField] private bool allowCombinedMass = false;
@@ -25,7 +36,7 @@ public class RigidbodyMassPressureButtonChestOpener : MonoBehaviour
     [SerializeField] private Transform buttonVisual;
     [SerializeField] private Vector3 pressedLocalOffset = new Vector3(0f, -0.03f, 0f);
 
-    private readonly HashSet<Rigidbody> _rigidbodiesOnButton = new HashSet<Rigidbody>();
+    private readonly HashSet<Rigidbody> _rigidbodiesOnButton = new();
 
     private Vector3 _buttonStartLocalPosition;
     private Vector3 _risingObjectStartLocalPosition;
@@ -35,8 +46,20 @@ public class RigidbodyMassPressureButtonChestOpener : MonoBehaviour
     private bool _isAnimating;
     private bool _wantedPressedState;
 
+    private void Reset()
+    {
+        simpleInteractable = GetComponent<XRSimpleInteractable>();
+        weightCheckCollider = GetComponent<Collider>();
+    }
+
     private void Awake()
     {
+        if (simpleInteractable == null)
+            simpleInteractable = GetComponent<XRSimpleInteractable>();
+
+        if (weightCheckCollider == null)
+            weightCheckCollider = GetComponent<Collider>();
+
         if (buttonVisual != null)
             _buttonStartLocalPosition = buttonVisual.localPosition;
 
@@ -51,32 +74,68 @@ public class RigidbodyMassPressureButtonChestOpener : MonoBehaviour
             holderToRotate.localRotation = Quaternion.Euler(closedEuler);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        Rigidbody rb = other.attachedRigidbody;
+        if (simpleInteractable == null)
+            simpleInteractable = GetComponent<XRSimpleInteractable>();
 
-        if (rb == null)
-            rb = other.GetComponentInParent<Rigidbody>();
+        simpleInteractable.selectEntered.AddListener(OnPokeSelected);
+        simpleInteractable.selectExited.AddListener(OnPokeDeselected);
+    }
 
-        if (rb == null)
+    private void OnDisable()
+    {
+        if (simpleInteractable == null)
             return;
 
-        _rigidbodiesOnButton.Add(rb);
+        simpleInteractable.selectEntered.RemoveListener(OnPokeSelected);
+        simpleInteractable.selectExited.RemoveListener(OnPokeDeselected);
+    }
+
+    private void OnPokeSelected(SelectEnterEventArgs args)
+    {
+        RefreshRigidbodiesOnButton();
         EvaluateButtonState();
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnPokeDeselected(SelectExitEventArgs args)
     {
-        Rigidbody rb = other.attachedRigidbody;
+        RefreshRigidbodiesOnButton();
+        EvaluateButtonState();
+    }
 
-        if (rb == null)
-            rb = other.GetComponentInParent<Rigidbody>();
+    private void RefreshRigidbodiesOnButton()
+    {
+        _rigidbodiesOnButton.Clear();
 
-        if (rb == null)
+        if (weightCheckCollider == null)
             return;
 
-        _rigidbodiesOnButton.Remove(rb);
-        EvaluateButtonState();
+        Bounds bounds = weightCheckCollider.bounds;
+
+        Collider[] colliders = Physics.OverlapBox(
+            bounds.center,
+            bounds.extents,
+            weightCheckCollider.transform.rotation,
+            weightLayerMask,
+            QueryTriggerInteraction.Collide
+        );
+
+        foreach (Collider col in colliders)
+        {
+            if (col == null)
+                continue;
+
+            Rigidbody rb = col.attachedRigidbody;
+
+            if (rb == null)
+                rb = col.GetComponentInParent<Rigidbody>();
+
+            if (rb == null)
+                continue;
+
+            _rigidbodiesOnButton.Add(rb);
+        }
     }
 
     private void EvaluateButtonState()
@@ -201,6 +260,8 @@ public class RigidbodyMassPressureButtonChestOpener : MonoBehaviour
             buttonVisual.localPosition = buttonTargetPosition;
 
         _isAnimating = false;
+
+        RefreshRigidbodiesOnButton();
 
         bool currentShouldBePressed = HasEnoughMass();
 
