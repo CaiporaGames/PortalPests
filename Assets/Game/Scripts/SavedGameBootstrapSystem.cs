@@ -7,6 +7,7 @@ public class SavedGameBootstrapSystem : MonoBehaviour, IGameSystem
     [SerializeField] private string defaultSceneName = "Level 1";
 
     private PlayerLocationSaveManager _locationSaveManager;
+    private PlayerLocationData _cachedData;
 
     public bool IsInitialized { get; private set; }
 
@@ -26,13 +27,26 @@ public class SavedGameBootstrapSystem : MonoBehaviour, IGameSystem
         if (!_locationSaveManager.IsInitialized)
             await _locationSaveManager.InitializeAsync();
 
-        var data = _locationSaveManager.GetData();
+        _cachedData = _locationSaveManager.GetData();
+
+        IsInitialized = true;
+    }
+
+    public async void LoadSavedOrDefaultScene()
+    {
+        await LoadSavedOrDefaultSceneAsync();
+    }
+
+    public async UniTask LoadSavedOrDefaultSceneAsync()
+    {
+        if (!IsInitialized)
+            await InitializeAsync();
 
         string sceneToLoad =
-            data != null &&
-            data.hasSavedLocation &&
-            !string.IsNullOrWhiteSpace(data.sceneName)
-                ? data.sceneName
+            _cachedData != null &&
+            _cachedData.hasSavedLocation &&
+            !string.IsNullOrWhiteSpace(_cachedData.sceneName)
+                ? _cachedData.sceneName
                 : defaultSceneName;
 
         await SceneManager.LoadSceneAsync(sceneToLoad);
@@ -40,14 +54,18 @@ public class SavedGameBootstrapSystem : MonoBehaviour, IGameSystem
         await UniTask.Yield();
         await UniTask.DelayFrame(1);
 
-        RestorePlayerPosition(data);
-
-        IsInitialized = true;
+        RestorePlayerPosition(_cachedData);
     }
 
     private void RestorePlayerPosition(PlayerLocationData data)
     {
         if (data == null || !data.hasSavedLocation)
+            return;
+
+        if (string.IsNullOrWhiteSpace(data.sceneName))
+            return;
+
+        if (SceneManager.GetActiveScene().name != data.sceneName)
             return;
 
         var playerAutoSave = FindFirstObjectByType<PlayerAutoSaveController>();

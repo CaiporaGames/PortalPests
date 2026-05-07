@@ -343,37 +343,6 @@ MonoBehaviour:
   m_RightControllerTransform: {fileID: 6148125768085576239}
   m_LeftHandMovementDirection: 0
   m_RightHandMovementDirection: 0
---- !u!1 &946139720578750688
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4883072414188499607}
-  m_Layer: 6
-  m_Name: GazeInteractor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4883072414188499607
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946139720578750688}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.10227091, y: 0.68133676, z: -0.09057094, w: 0.71910906}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2115900118293591787}
-  m_LocalEulerAnglesHint: {x: 15.694407, y: 86.98469, z: 0.5416558}
 --- !u!1 &1325065083541151218
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2115900118293591787}
+  - component: {fileID: 6674152747730242712}
   m_Layer: 6
   m_Name: HandMenu
   m_TagString: Untagged
@@ -440,9 +410,21 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7510422053368461328}
-  - {fileID: 4883072414188499607}
   m_Father: {fileID: 7502252515590425839}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6674152747730242712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448093266487862042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c97910a36db61478b5f567b3d19318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VRFloatingMenu
+  bootSceneName: Level 0
 --- !u!1 &1495289845552673506
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,8 +436,7 @@ GameObject:
   - component: {fileID: 345480200159333944}
   - component: {fileID: 5299094343004761227}
   - component: {fileID: 8476756967221375310}
-  - component: {fileID: 4934541390211714536}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,19 +577,6 @@ MonoBehaviour:
   m_StartingInteractionStrengthFilters: []
   m_AutoFindParentInteractableInHierarchy: 0
   m_ParentInteractableObject: {fileID: 0}
---- !u!114 &4934541390211714536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495289845552673506}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4b6744ec022e344919b4d065dd2290, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GazeHoverColorTest
-  uiCanvas: {fileID: 2886005399224040472}
 --- !u!1 &2015355749263244009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,6 +1872,7 @@ Transform:
   - {fileID: 2170841311142815125}
   - {fileID: 854331508046829067}
   - {fileID: 2115900118293591787}
+  - {fileID: 1659009254670144726}
   m_Father: {fileID: 4552322383261252018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5394173192340699898
@@ -2062,11 +2031,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa731de0518a954794915cc46b30a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerHeadMenuRay
-  rayOrigin: {fileID: 4883072414188499607}
+  rayOrigin: {fileID: 1659009254670144726}
   maxDistance: 2
   headSphereLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 128
   menuCanvas: {fileID: 4547341910926307718}
   openDelay: 0.15
   closeDelay: 0.25
@@ -2200,6 +2169,37 @@ MonoBehaviour:
   emptyColor: {r: 0, g: 1, b: 0, a: 1}
   filledColor: {r: 0, g: 0, b: 1, a: 1}
   currentItem: {fileID: 0}
+--- !u!1 &5690994751315910197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1659009254670144726}
+  m_Layer: 7
+  m_Name: RayOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1659009254670144726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5690994751315910197}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.80611664, z: -0, w: 0.59175664}
+  m_LocalPosition: {x: 0.0322, y: 0, z: -0.0431}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7502252515590425839}
+  m_LocalEulerAnglesHint: {x: 0, y: 107.436, z: 0}
 --- !u!1 &6060434818075977522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,7 +3474,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6674152747730242712}
         m_TargetAssemblyTypeName: VRFloatingMenu, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1

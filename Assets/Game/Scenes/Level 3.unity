@@ -17204,15 +17204,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5227368316033443150, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.18443
+      value: 12.16
       objectReference: {fileID: 0}
     - target: {fileID: 5227368316033443150, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.29026
+      value: 6.03
       objectReference: {fileID: 0}
     - target: {fileID: 5227368316033443150, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.59886
+      value: 17.53
       objectReference: {fileID: 0}
     - target: {fileID: 5227368316033443150, guid: 51a46e5b0be0a7246999553b16efac75, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41533,6 +41533,10 @@ PrefabInstance:
       propertyPath: _sceneTransitionManager
       value: 
       objectReference: {fileID: 1804807242}
+    - target: {fileID: 3893360984454923477, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4748757181872445354, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
       propertyPath: m_LocalScale.y
       value: 2.794584
@@ -41673,6 +41677,11 @@ MonoBehaviour:
 --- !u!65 &1742718167 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 3760152572606108171, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
+  m_PrefabInstance: {fileID: 1742718164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1742718168 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3893360984454923477, guid: 0eb09e815c6209543a61f545ca63614d, type: 3}
   m_PrefabInstance: {fileID: 1742718164}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1743422428
@@ -43539,11 +43548,11 @@ PrefabInstance:
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: '_spawnPoints.Array.data[0]'
       value: 
-      objectReference: {fileID: 1215195264}
+      objectReference: {fileID: 1742718168}
     - target: {fileID: 1134766407579096746, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: '_spawnPoints.Array.data[1]'
       value: 
-      objectReference: {fileID: 1742718165}
+      objectReference: {fileID: 1215195263}
     - target: {fileID: 4568855843065676157, guid: 67f876695d8511441b9784ff865e7863, type: 3}
       propertyPath: m_Name
       value: --SceneTransitionManager--
@@ -51166,15 +51175,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766557064291790421, guid: 35f74c8b4ec25cb47ac0268927a5ab56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.422
+      value: 7.276
       objectReference: {fileID: 0}
     - target: {fileID: 7766557064291790421, guid: 35f74c8b4ec25cb47ac0268927a5ab56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.581
+      value: 6.329
       objectReference: {fileID: 0}
     - target: {fileID: 7766557064291790421, guid: 35f74c8b4ec25cb47ac0268927a5ab56, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.705
+      value: 20.618
       objectReference: {fileID: 0}
     - target: {fileID: 7766557064291790421, guid: 35f74c8b4ec25cb47ac0268927a5ab56, type: 3}
       propertyPath: m_LocalRotation.w

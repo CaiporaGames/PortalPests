@@ -14,7 +14,6 @@ public class ControllerHeadMenuRay : MonoBehaviour
 
     private float _hoverTimer;
     private float _exitTimer;
-    private bool _isPointingAtHead;
 
     private void Reset()
     {
@@ -32,7 +31,6 @@ public class ControllerHeadMenuRay : MonoBehaviour
             QueryTriggerInteraction.Collide
         );
 
-        _isPointingAtHead = hitHead;
 
         if (hitHead)
         {
@@ -50,11 +48,5 @@ public class ControllerHeadMenuRay : MonoBehaviour
             if (_exitTimer >= closeDelay && menuCanvas != null && menuCanvas.activeSelf)
                 menuCanvas.SetActive(false);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Transform origin = rayOrigin != null ? rayOrigin : transform;
-        Gizmos.DrawRay(origin.position, origin.forward * maxDistance);
     }
 }
