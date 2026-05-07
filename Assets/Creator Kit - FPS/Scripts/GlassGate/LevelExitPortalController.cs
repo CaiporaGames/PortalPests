@@ -81,17 +81,39 @@ public class LevelExitPortalController : MonoBehaviour
     {
         _currentKilledCount = 0;
 
-        var allTargets = FindObjectsByType<Target>(FindObjectsSortMode.None);
+        var allTargets = FindObjectsByType<Target>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        int aliveCount = 0;
+        int savedDestroyedCount = 0;
 
         foreach (var target in allTargets)
         {
             var id = target.GetComponent<PersistentWorldObjectIdentity>();
-            if (id == null)
-                continue;
 
-            if (_worldStateManager.IsDestroyed(id))
-                _currentKilledCount++;
+            if (id != null && _worldStateManager.IsDestroyed(id))
+            {
+                savedDestroyedCount++;
+                continue;
+            }
+
+            if (target.gameObject.activeInHierarchy)
+            {
+                aliveCount++;
+            }
         }
+
+        int assumedDestroyedCount = Mathf.Max(
+            0,
+            requiredEnemyCount - aliveCount
+        );
+
+        _currentKilledCount = Mathf.Max(
+            savedDestroyedCount,
+            assumedDestroyedCount
+        );
     }
 
     private async UniTask OpenPortalAsync(bool playSound)

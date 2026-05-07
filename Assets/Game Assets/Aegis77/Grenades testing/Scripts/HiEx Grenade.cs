@@ -113,14 +113,13 @@ namespace Aegis.GrenadeSystem.HiEx
 
             foreach (Collider closeobject in closecolliders)
             {
-
+                    Debug.Log("Close object: " + closeobject.name);
                 //if an Enemy or player is nearby the explosion, apply damage
                 if (closeobject.tag == "Player" || closeobject.tag == "Enemy" || closeobject.tag == "Target")
                 {
 
                     DamageHandler healthobject = closeobject.GetComponent<DamageHandler>();
                     Target targetObject = closeobject.GetComponent<Target>();
-
                     if (targetObject)
                     {
                         targetObject.Got(closeDam);
@@ -141,6 +140,11 @@ namespace Aegis.GrenadeSystem.HiEx
                 if (nearbyobject.tag == "Player" || nearbyobject.tag == "Enemy" || nearbyobject.tag == "Target")
                 {
                     DamageHandler healthobject = nearbyobject.GetComponent<DamageHandler>();
+                    Target targetObject = nearbyobject.GetComponent<Target>();
+                    if (targetObject)
+                    {
+                        targetObject.Got(nearDam);
+                    }
 
                     if (healthobject)
                     {
@@ -157,7 +161,11 @@ namespace Aegis.GrenadeSystem.HiEx
                 if (farobject.tag == "Player" || farobject.tag == "Enemy" || farobject.tag == "Target")
                 {
                     DamageHandler healthobject = farobject.GetComponent<DamageHandler>();
-
+                    Target targetObject = farobject.GetComponent<Target>();
+                    if (targetObject)
+                    {
+                        targetObject.Got(closeDam);
+                    }
                     if (healthobject)
                     {
                         healthobject.ApplyDamage(farDam);
